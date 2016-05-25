@@ -2,9 +2,10 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------------+
 // | File_Ogg PEAR Package for Accessing Ogg Bitstreams                         |
-// | Copyright (c) 2005-2007                                                    |
+// | Copyright (c) 2005-2007, 2016                                              |
 // | David Grant <david@grant.org.uk>                                           |
 // | Tim Starling <tstarling@wikimedia.org>                                     |
+// | Brion Vibber <bvibber@wikimedia.org>                                       |
 // +----------------------------------------------------------------------------+
 // | This library is free software; you can redistribute it and/or              |
 // | modify it under the terms of the GNU Lesser General Public                 |
@@ -22,9 +23,9 @@
 // +----------------------------------------------------------------------------+
 
 /**
- * @author      David Grant <david@grant.org.uk>, Tim Starling <tstarling@wikimedia.org>
+ * @author      David Grant <david@grant.org.uk>, Tim Starling <tstarling@wikimedia.org>, Brion Vibber <bvibber@wikimedia.org>
  * @category    File
- * @copyright   David Grant <david@grant.org.uk>, Tim Starling <tstarling@wikimedia.org>
+ * @copyright   David Grant <david@grant.org.uk>, Tim Starling <tstarling@wikimedia.org>, Brion Vibber <bvibber@wikimedia.org>
  * @license     http://www.gnu.org/copyleft/lesser.html GNU LGPL
  * @link        http://pear.php.net/package/File_Ogg
  * @package     File_Ogg
@@ -51,6 +52,10 @@ define("OGG_STREAM_FLAC",       4);
  * @access  public
  */
 define("OGG_STREAM_OPUS",       5);
+/**
+ * @access  public
+ */
+define("OGG_STREAM_SKELETON",   6);
 
 /**
  * Capture pattern to determine if a file is an Ogg physical stream.
@@ -94,6 +99,11 @@ define("OGG_STREAM_CAPTURE_THEORA", "theora");
  * @access  private
  */
 define("OGG_STREAM_CAPTURE_OPUS",  "OpusHead");
+/**
+ * Capture pattern for an Ogg Skeleton logical stream.
+ * @access  private
+ */
+define("OGG_STREAM_CAPTURE_SKELETON", "fishead\\x00");
 /**
  * Error thrown if the file location passed is nonexistant or unreadable.
  *
@@ -481,6 +491,9 @@ class File_Ogg
             } elseif (preg_match("/" . OGG_STREAM_CAPTURE_OPUS . "/", $pattern)) {
                 $this->_streamList[$stream_serial]['stream_type'] = OGG_STREAM_OPUS;
                 $stream = new File_Ogg_Opus($stream_serial, $streamData, $this->_filePointer);
+            } elseif (preg_match("/" . OGG_STREAM_CAPTURE_SKELETON . "/", $pattern)) {
+                $this->_streamList[$stream_serial]['stream_type'] = OGG_STREAM_SKELETON;
+                $stream = new File_Ogg_Skeleton($stream_serial, $streamData, $this->_filePointer);
             } else {
                 $streamData['stream_type'] = "unknown";
                 $stream = false;
@@ -488,17 +501,18 @@ class File_Ogg
 
             if ($stream) {
                 $this->_streams[$stream_serial] = $stream;
-                $group = $streamData['pages'][0]['group'];
-                if (isset($groupLengths[$group])) {
-                    $groupLengths[$group] = max($groupLengths[$group], $stream->getLength());
-                } else {
-                    $groupLengths[$group] = $stream->getLength();
+                if ($stream instanceof File_Ogg_Media) {
+                    $group = $streamData['pages'][0]['group'];
+                    if (isset($groupLengths[$group])) {
+                        $groupLengths[$group] = max($groupLengths[$group], $stream->getLength());
+                    } else {
+                        $groupLengths[$group] = $stream->getLength();
+                    }
+                    //just store the startOffset for the first stream:
+                    if( $this->_startOffset === false ){
+                        $this->_startOffset = $stream->getStartOffset();
+                    }
                 }
-                //just store the startOffset for the first stream:
-                if( $this->_startOffset === false ){
-                	$this->_startOffset = $stream->getStartOffset();
-                }
-
             }
         }
         $this->_groupLengths = $groupLengths;
@@ -582,7 +596,7 @@ class File_Ogg
         // ready for filtering the second part of this function.
         foreach ($this->_streams as $serial => $stream) {
             $stream_type = 0;
-            switch (get_class($stream)) {
+            switch (strtolower(get_class($stream))) {
                 case "file_ogg_flac":
                     $stream_type = OGG_STREAM_FLAC;
                     break;
@@ -594,6 +608,12 @@ class File_Ogg
                     break;
                 case "file_ogg_vorbis":
                     $stream_type = OGG_STREAM_VORBIS;
+                    break;
+                case "file_ogg_opus":
+                    $stream_type = OGG_STREAM_OPUS;
+                    break;
+                case "file_ogg_skeleton":
+                    $stream_type = OGG_STREAM_SKELETON;
                     break;
             }
             if (! isset($streams[$stream_type]))
