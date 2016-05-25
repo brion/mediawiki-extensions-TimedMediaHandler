@@ -84,61 +84,48 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_OGV_160P =>
 			[
 				'maxSize'                    => '288x160',
-				'videoBitrate'               => '160',
-				'framerate'                  => '15',
-				'audioQuality'               => '-1',
-				'samplerate'                 => '44100',
-				'channels'                   => '2',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
 				'optimize'                   => 'true',
 				'keyframeInterval'           => '128',
-				'bufDelay'                   => '256',
 				'videoCodec'                 => 'theora',
 				'type'                       => 'video/ogg; codecs="theora, vorbis"',
 			],
 		WebVideoTranscode::ENC_OGV_240P =>
 			[
 				'maxSize'                    => '426x240',
-				'videoBitrate'               => '512',
-				'audioQuality'               => '0',
-				'samplerate'                 => '44100',
-				'channels'                   => '2',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
 				'optimize'                   => 'true',
 				'keyframeInterval'           => '128',
-				'bufDelay'                   => '256',
 				'videoCodec'                 => 'theora',
 				'type'                       => 'video/ogg; codecs="theora, vorbis"',
 			],
 		WebVideoTranscode::ENC_OGV_360P =>
 			[
 				'maxSize'                    => '640x360',
-				'videoBitrate'               => '1024',
-				'audioQuality'               => '1',
-				'samplerate'                 => '44100',
-				'channels'                   => '2',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
 				'optimize'                   => 'true',
 				'keyframeInterval'           => '128',
-				'bufDelay'                   => '256',
 				'videoCodec'                 => 'theora',
 				'type'                       => 'video/ogg; codecs="theora, vorbis"',
 			],
 		WebVideoTranscode::ENC_OGV_480P =>
 			[
 				'maxSize'                    => '854x480',
-				'videoBitrate'               => '2048',
-				'audioQuality'               => '2',
-				'samplerate'                 => '44100',
-				'channels'                   => '2',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
 				'optimize'                   => 'true',
 				'keyframeInterval'           => '128',
-				'bufDelay'                   => '256',
 				'videoCodec'                 => 'theora',
 				'type'                       => 'video/ogg; codecs="theora, vorbis"',
 			],
@@ -173,10 +160,8 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_160P =>
 			[
 				'maxSize'                    => '288x160',
-				'videoBitrate'               => '128',
-				'audioQuality'               => '-1',
-				'samplerate'                 => '44100',
-				'channels'                   => '2',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'true',
 				'keyframeInterval'           => '128',
@@ -187,23 +172,8 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_240P =>
 			[
 				'maxSize'                    => '426x240',
-				'videoBitrate'               => '256',
-				'audioQuality'               => '-1',
-				'samplerate'                 => '44100',
-				'channels'                   => '2',
-				'noUpscaling'                => 'true',
-				'twopass'                    => 'true',
-				'keyframeInterval'           => '128',
-				'bufDelay'                   => '256',
-				'videoCodec'                 => 'vp8',
-				'type'                       => 'video/webm; codecs="vp8, vorbis"',
-			],
-		WebVideoTranscode::ENC_WEBM_240P =>
-			[
-				'maxSize'                    => '426x240',
-				'videoBitrate'               => '256',
-				'audioQuality'               => '1',
-				'samplerate'                 => '44100',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'true',
 				'keyframeInterval'           => '128',
@@ -214,9 +184,8 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_360P =>
 			[
 				'maxSize'                    => '640x360',
-				'videoBitrate'               => '512',
-				'audioQuality'               => '1',
-				'samplerate'                 => '44100',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'true',
 				'keyframeInterval'           => '128',
@@ -227,9 +196,8 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_480P =>
 			[
 				'maxSize'                    => '854x480',
-				'videoBitrate'               => '1024',
-				'audioQuality'               => '2',
-				'samplerate'                 => '44100',
+				'videoQuality'               => 6,
+				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'true',
 				'keyframeInterval'           => '128',
@@ -240,7 +208,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_720P =>
 			[
 				'maxSize'                    => '1280x720',
-				'videoBitrate'               => '2048',
+				'videoQuality'               => 6,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'videoCodec'                 => 'vp8',
@@ -249,7 +217,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_1080P =>
 			 [
 				'maxSize'                    => '1920x1080',
-				'videoBitrate'               => '4096',
+				'videoQuality'               => 6,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'videoCodec'                 => 'vp8',
@@ -258,7 +226,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_1440P =>
 			 [
 				'maxSize'                    => '2560x1440',
-				'videoBitrate'               => '8192',
+				'videoQuality'               => 6,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'videoCodec'                 => 'vp8',
@@ -267,7 +235,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_WEBM_2160P =>
 			 [
 				'maxSize'                    => '4096x2160',
-				'videoBitrate'               => '16384',
+				'videoQuality'               => 6,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'videoCodec'                 => 'vp8',
