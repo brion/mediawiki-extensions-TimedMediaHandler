@@ -12,9 +12,11 @@ class RequeueTranscodes extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->addOption( "all", "re-queue all output formats", false, false );
+		$this->addOption( "file", "re-queue selected formats only for the given file", false, true );
 		$this->addOption( "key", "re-queue for given format key", false, true );
 		$this->addOption( "error", "re-queue formats that previously failed", false, false );
+		$this->addOption( "stalled", "re-queue formats that were started but not finished", false, false );
+		$this->addOption( "all", "re-queue all output formats", false, false );
 		$this->mDescription = "re-queue existing and missing media transcodes.";
 	}
 
@@ -22,6 +24,14 @@ class RequeueTranscodes extends Maintenance {
 		$this->output( "Cleanup transcodes:\n" );
 		$dbr = wfGetDB( DB_SLAVE );
 		$where = [ 'img_media_type' => 'VIDEO' ];
+		if ( $this->hasOption( 'file' ) ) {
+			$title = Title::newFromText( $this->getOption( 'file' ), NS_FILE );
+			if ( !$title ) {
+				$this->output( "Invalid --file option provided" );
+				return;
+			}
+			$where['img_name'] = $title->getDBkey();
+		}
 		$res = $dbr->select( 'image', ['img_name'], $where, __METHOD__ );
 		foreach ( $res as $row ) {
 			$title = Title::newFromText( $row->img_name, NS_FILE );
@@ -47,12 +57,15 @@ class RequeueTranscodes extends Maintenance {
 		} else {
 			$toAdd = $transcodeSet;
 			$toRemove = [];
-			if ( $this->hasOption( 'error' ) ) {
-				$state = WebVideoTranscode::getTranscodeState( $file, $dbw );
-				foreach ( $state as $key => $item ) {
-					if ( $item['time_error'] || !$item['time_addjob'] ) {
-						$toRemove[] = $key;
-					} 
+			$state = WebVideoTranscode::getTranscodeState( $file, $dbw );
+			foreach ( $state as $key => $item ) {
+				if ( $this->hasOption( 'error' ) && ( $item['time_error'] || !$item['time_addjob'] ) ) {
+					$toRemove[] = $key;
+					continue;
+				}
+				if ( $this->hasOption( 'stalled' ) && ( $item['time_addjob'] && !$item['time_success'] && !$item['time_error'] ) ) {
+					$toRemove[] = $key;
+					continue;
 				}
 			}
 		}
