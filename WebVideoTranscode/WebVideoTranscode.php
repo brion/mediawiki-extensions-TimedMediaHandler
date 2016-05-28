@@ -32,6 +32,8 @@ class WebVideoTranscode {
 	const ENC_OGV_480P = '480p.ogv';
 	const ENC_OGV_720P = '720p.ogv';
 	const ENC_OGV_1080P = '1080p.ogv';
+	const ENC_OGV_1440P = '1440p.ogv';
+	const ENC_OGV_2160P = '2160p.ogv';
 
 	// WebM VP8/Vorbis profiles:
 	const ENC_WEBM_160P = '160p.webm';
@@ -156,6 +158,32 @@ class WebVideoTranscode {
 				'type'                       => 'video/ogg; codecs="theora, vorbis"',
 			],
 
+			WebVideoTranscode::ENC_OGV_1440P =>
+				[
+					'maxSize'                    => '2560x1440',
+					'videoQuality'               => 6,
+					'audioQuality'               => 3,
+					'noUpscaling'                => 'true',
+					'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
+					'optimize'                   => 'true',
+					'keyframeInterval'           => '128',
+					'videoCodec'                 => 'theora',
+					'type'                       => 'video/ogg; codecs="theora, vorbis"',
+				],
+
+			WebVideoTranscode::ENC_OGV_2160P =>
+				[
+					'maxSize'                    => '3840x2160',
+					'videoQuality'               => 6,
+					'audioQuality'               => 3,
+					'noUpscaling'                => 'true',
+					'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
+					'optimize'                   => 'true',
+					'keyframeInterval'           => '128',
+					'videoCodec'                 => 'theora',
+					'type'                       => 'video/ogg; codecs="theora, vorbis"',
+				],
+
 		// WebM transcode:
 		WebVideoTranscode::ENC_WEBM_160P =>
 			[
@@ -236,7 +264,7 @@ class WebVideoTranscode {
 			],
 		WebVideoTranscode::ENC_WEBM_2160P =>
 			 [
-				'maxSize'                    => '4096x2160',
+				'maxSize'                    => '3840x2160',
 				'videoQuality'               => 6,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
@@ -343,7 +371,7 @@ class WebVideoTranscode {
 			],
 		WebVideoTranscode::ENC_VP9_2160P =>
 			 [
-				'maxSize'                    => '4096x2160',
+				'maxSize'                    => '3840x2160',
 				'videoBitrate'               => '8192',
 				'samplerate'                 => '48000',
 				'noUpscaling'                => 'true',
@@ -449,7 +477,7 @@ class WebVideoTranscode {
 			],
 		WebVideoTranscode::ENC_H264_2160P =>
 			[
-				'maxSize' => '4096x2160',
+				'maxSize' => '3840x2160',
 				'videoCodec' => 'h264',
 				'videoBitrate' => '16384k',
 				'audioCodec' => 'aac',
