@@ -84,7 +84,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_OGV_160P =>
 			[
 				'maxSize'                    => '288x160',
-				'videoQuality'               => 6,
+				'videoQuality'               => 8,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
@@ -96,7 +96,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_OGV_240P =>
 			[
 				'maxSize'                    => '426x240',
-				'videoQuality'               => 6,
+				'videoQuality'               => 8,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
@@ -108,7 +108,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_OGV_360P =>
 			[
 				'maxSize'                    => '640x360',
-				'videoQuality'               => 6,
+				'videoQuality'               => 7,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
@@ -120,7 +120,7 @@ class WebVideoTranscode {
 		WebVideoTranscode::ENC_OGV_480P =>
 			[
 				'maxSize'                    => '854x480',
-				'videoQuality'               => 6,
+				'videoQuality'               => 7,
 				'audioQuality'               => 3,
 				'noUpscaling'                => 'true',
 				'twopass'                    => 'false', // will be overridden by $wgTmhTheoraTwoPassEncoding
