@@ -19,16 +19,18 @@ class OggHandlerTMH extends TimedMediaHandler {
 			foreach ( $f->listStreams() as $streamIDs ) {
 				foreach ( $streamIDs as $streamID ) {
 					$stream = $f->getStream( $streamID );
-					$streams[$streamID] = [
-						'serial' => $stream->getSerial(),
-						'group' => $stream->getGroup(),
-						'type' => $stream->getType(),
-						'vendor' => $stream->getVendor(),
-						'length' => $stream->getLength(),
-						'size' => $stream->getSize(),
-						'header' => $stream->getHeader(),
-						'comments' => $stream->getComments()
-					];
+					if ($stream instanceof File_Ogg_Media) {
+						$streams[$streamID] = [
+							'serial' => $stream->getSerial(),
+							'group' => $stream->getGroup(),
+							'type' => $stream->getType(),
+							'vendor' => $stream->getVendor(),
+							'length' => $stream->getLength(),
+							'size' => $stream->getSize(),
+							'header' => $stream->getHeader(),
+							'comments' => $stream->getComments()
+						];
+					}
 				}
 			}
 			$metadata['streams'] = $streams;

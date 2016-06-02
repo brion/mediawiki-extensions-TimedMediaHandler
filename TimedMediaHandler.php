@@ -264,6 +264,8 @@ $wgAutoloadClasses['File_Ogg_Theora'] =
 	"$timedMediaDir/handlers/OggHandler/File_Ogg/File/Ogg/Theora.php";
 $wgAutoloadClasses['File_Ogg_Vorbis'] =
 	"$timedMediaDir/handlers/OggHandler/File_Ogg/File/Ogg/Vorbis.php";
+$wgAutoloadClasses['File_Ogg_Skeleton'] =
+	"$timedMediaDir/handlers/OggHandler/File_Ogg/File/Ogg/Skeleton.php";
 
 // getID3 provides metadata for mp4 and webm files:
 $wgAutoloadClasses['getID3'] = "$timedMediaDir/libs/getid3/getid3.php";
